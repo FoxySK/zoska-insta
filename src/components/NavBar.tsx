@@ -1,5 +1,4 @@
-
-// /src/components/Navbar.tsx
+// src/components/Navbar.tsx
 
 "use client";
 
@@ -10,16 +9,34 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
   const [value, setValue] = React.useState('/');
+  const { data: session } = useSession();
   const router = useRouter();
 
   const handleNavigation = (event: React.SyntheticEvent, newValue: string) => {
+    console.log(`Navigating to: ${newValue}`);
     setValue(newValue);
     router.push(newValue); 
   };
+
+  const commonLinks = [
+    { label: "Domov", value: "/", icon: <HomeIcon /> },
+    { label: "Profily", value: "/profil", icon: <AccountCircleIcon /> },
+    { label: "Príspevky", value: "/prispevok", icon: <AddCircleIcon /> },
+  ];
+
+  const loggedOutLinks = [
+    { label: "Prihlásenie", value: "/auth/prihlasenie", icon: <LoginIcon /> },
+    { label: "Registrácia", value: "/auth/registracia", icon: <AppRegistrationIcon /> },
+  ];
+
+  const loggedInLinks = [
+    { label: "Odhlásiť sa", value: "/auth/odhlasenie", icon: <LoginIcon /> },
+  ];
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -28,14 +45,24 @@ export default function Navbar() {
         value={value}
         onChange={handleNavigation}
       >
-        <BottomNavigationAction label="Domov" value="/" icon={<HomeIcon />} />
-        <BottomNavigationAction label="Profily" value="/profil" icon={<AccountCircleIcon />} />
-        <BottomNavigationAction label="Príspevky" value="/prispevok" icon={<AddCircleIcon />} />
-        <BottomNavigationAction label="Prihlásenie" value="/auth/prihlasenie" icon={<LoginIcon />} />
-        <BottomNavigationAction label="Registrácia" value="/auth/registracia" icon={<AppRegistrationIcon />} />
+        {commonLinks.map(link => (
+          <BottomNavigationAction 
+            key={link.value} 
+            label={link.label} 
+            value={link.value} 
+            icon={link.icon} 
+          />
+        ))}
+        
+        {(session ? loggedInLinks : loggedOutLinks).map(link => (
+          <BottomNavigationAction 
+            key={link.value} 
+            label={link.label} 
+            value={link.value} 
+            icon={link.icon} 
+          />
+        ))}
       </BottomNavigation>
     </Box>
   );
 }
-
-
