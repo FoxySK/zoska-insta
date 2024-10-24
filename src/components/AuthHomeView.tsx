@@ -1,6 +1,6 @@
 // src/components/WelcomeMessage.tsx
 
-"use client"; // Ensure this is a client component
+
 
 import { useSession } from "next-auth/react";
 import { Typography, Divider } from "@mui/material";
