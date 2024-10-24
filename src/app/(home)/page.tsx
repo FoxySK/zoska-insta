@@ -1,24 +1,16 @@
 // src/app/(home)/page.tsx
 
-"use client"; // Ensure this is a client component
 
-import { useSession } from "next-auth/react";
-import { Container, Typography } from "@mui/material";
-import WelcomeMessage from "@/components/AuthHomeView";
+import { getServerSession } from "next-auth";
+import { authOptions } from "./api/auth/[...nextauth]/authOptions";
+import AuthHomeView from "@/components/AuthHomeView";
+import NonAuthHomeView from "@/components/NonAuthHomeView";
 
-export default function Home() {
-  const { data: session } = useSession();
+export const metadata = { title: "Domov | ZoškaSnap" };
 
-  return (
-    <Container>
-      {!session ? (
-        <>
-          <Typography>Domovská stránka</Typography>
-          <Typography>Vitajte! Prihláste sa cez navbar.</Typography>
-        </>
-      ) : (
-        <WelcomeMessage />
-      )}
-    </Container>
-  );
+export default async function HomePage() {
+  // Fetch session on the server
+  const session = await getServerSession(authOptions);
+
+  return session ? <AuthHomeView session={session} /> : <NonAuthHomeView />;
 }
