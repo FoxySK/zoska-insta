@@ -11,6 +11,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation'
 
 export default function Navbar() {
   const [value, setValue] = React.useState('/');
@@ -25,18 +26,24 @@ export default function Navbar() {
 
   const commonLinks = [
     { label: "Domov", value: "/", icon: <HomeIcon /> },
-    { label: "Profily", value: "/profil", icon: <AccountCircleIcon /> },
+    { label: "Profil", value: "/profil", icon: <AccountCircleIcon /> },
     { label: "Príspevky", value: "/prispevok", icon: <AddCircleIcon /> },
   ];
 
   const loggedOutLinks = [
     { label: "Prihlásenie", value: "/auth/prihlasenie", icon: <LoginIcon /> },
-    { label: "Registrácia", value: "/auth/registracia", icon: <AppRegistrationIcon /> },
+    //{ label: "Registrácia", value: "/auth/registracia", icon: <AppRegistrationIcon /> },
   ];
 
   const loggedInLinks = [
     { label: "Odhlásiť sa", value: "/auth/odhlasenie", icon: <LoginIcon /> },
   ];
+
+  const pathname = usePathname()
+
+  if (pathname === '/auth/prihlasenie') {
+    return null; 
+  }
 
   return (
     <Box sx={{ width: '100%' }}>

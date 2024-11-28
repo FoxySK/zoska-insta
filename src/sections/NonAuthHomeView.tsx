@@ -7,7 +7,7 @@ import { Container, Typography } from "@mui/material";
 
 
 
-export default function AuthHomeView() {
+export default function PrivateAuth() {
 
   return (
     <Container>   
