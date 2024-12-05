@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation'; // Server-side redirect
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../app/(home)/api/auth/[...nextauth]/authOptions';
+import { authOptions } from '../app/api/auth/[...nextauth]/authOptions';
 
 const PrivateAuth = async ({ children }: { children: React.ReactNode }) => {
   // Get the session on the server-side

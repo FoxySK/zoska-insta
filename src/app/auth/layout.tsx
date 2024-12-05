@@ -1,6 +1,6 @@
 // components/layouts/AuthLayout.tsx
 
-const PublicLayout = ({ children }: { children: React.ReactNode }) => {
+const AuthLayout = ({ children }: { children: React.ReactNode }) => {
     return (
       <div>
         {children}
@@ -8,5 +8,5 @@ const PublicLayout = ({ children }: { children: React.ReactNode }) => {
     );
   };
   
-  export default PublicLayout;
+  export default AuthLayout;
   

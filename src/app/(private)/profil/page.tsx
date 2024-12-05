@@ -9,7 +9,7 @@ export default function ProfileList() {
 
   return (
 
-      <Typography> Zoznam profilov </Typography>
+      <Typography> Profil </Typography>
 
   );
 }

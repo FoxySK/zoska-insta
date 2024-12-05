@@ -1,7 +1,7 @@
-// src/app/api/auth/[...nextauth]/authOptions.ts
-
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { prisma } from "./prisma";  // Adjust the import based on your folder structure
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -16,9 +16,12 @@ export const authOptions: NextAuthOptions = {
     signOut: '/auth/odhlasenie',
   },
   callbacks: {
-    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
-      // Redirect to home page after sign-in
-      return "/prispevok"; // baseUrl is automatically set from NEXTAUTH_URL in .env /baseUrl || url
+    async session({ session, user }) {
+      // Add user's image and email to the session object
+      session.user.image = user.image; // Add profile image
+      session.user.email = user.email; // Ensure email is added
+      return session;
     },
   },
+  adapter: PrismaAdapter(prisma),
 };

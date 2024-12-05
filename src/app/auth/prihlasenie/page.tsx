@@ -1,46 +1,102 @@
-// src/app/auth/prihlasenie/page.tsx
-
 "use client"; // Ensure this is a client component
 
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Container, Button, Typography } from "@mui/material";
-import { useRouter } from "next/navigation"; // Import useRouter for navigation
+import { Box, Button, Container, Typography } from "@mui/material";
+import GoogleIcon from "@mui/icons-material/Google"; 
+import GitHubIcon from "@mui/icons-material/GitHub"; 
+import { useRouter } from "next/navigation";
+import { useTheme } from "@mui/material/styles"; 
 
 export default function SignIn() {
-  const { data: session } = useSession(); // Access session data
-  const router = useRouter(); // Access router for navigation
+  const { data: session } = useSession();
+  const router = useRouter();
+  const theme = useTheme(); // Access the current theme
 
-  // Handle Google login and redirect after successful login
-  const handleSignIn = async () => {
-    const result = await signIn("google", {
-      redirect: false, // Prevent automatic redirect
+  // Handle Google sign-in
+  const handleSignIn = async (provider: string) => {
+    const result = await signIn(provider, {
+      redirect: false,
     });
 
     if (result?.ok) {
-      // After a successful login, manually redirect to /prispevky
       router.push("/prispevky");
     } else {
-      // Handle login failure (e.g., show a message)
       console.error("Login failed");
     }
   };
 
   return (
-    <Container>
-      <Typography variant="h4">Prihlásiť sa</Typography>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+      }}
+    >
+      <Box
+        sx={{
+          padding: "40px",
+          borderRadius: "8px",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+          backgroundColor: theme.palette.mode === "dark" ? "#333" : "#fff",
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h5" gutterBottom>
+          Prihlásiť sa
+        </Typography>
 
-      {!session ? (
-        <Button variant="contained" onClick={handleSignIn}>
-          Prihlásiť sa pomocou Google
-        </Button>
-      ) : (
-        <>
-          <Typography variant="h6">Už ste prihlásený ako {session.user?.name}.</Typography>
-          <Button variant="contained" onClick={() => signOut()}>
-            Odhlásiť sa
-          </Button>
-        </>
-      )}
-    </Container>
+        {!session ? (
+          <>
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<GoogleIcon />}
+              onClick={() => handleSignIn("google")}
+              sx={{ width: "100%", maxWidth: "300px" }}
+            >
+              Prihlásiť sa pomocou Google
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              startIcon={<GitHubIcon />}
+              onClick={() => handleSignIn("github")}
+              sx={{ width: "100%", maxWidth: "300px" }}
+            >
+              Prihlásiť sa pomocou GitHub
+            </Button>
+          </>
+        ) : (
+          <>
+            <Typography variant="h6">
+              Už ste prihlásený ako {session.user?.name}.
+            </Typography>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => signOut()}
+              sx={{ width: "100%", maxWidth: "300px" }}
+            >
+              Odhlásiť sa
+            </Button>
+          </>
+        )}
+
+        {!session && (
+          <Typography variant="body2" sx={{ marginTop: "20px" }}>
+            Nemáte účet?{" "}
+            <a href="/auth/registracia" style={{ textDecoration: "none", color: "#1976d2" }}>
+              Registrovať sa
+            </a>
+          </Typography>
+        )}
+      </Box>
+    </Box>
   );
 }
