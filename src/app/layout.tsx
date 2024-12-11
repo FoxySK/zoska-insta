@@ -4,8 +4,9 @@ import { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/NavBar";
 import AuthProvider from "../components/AuthProvider";
-import { CustomThemeProvider } from "../components/ThemeProvider";
+//import { ThemeProvider } from "../components/ThemeProvider";
 import { Box } from "@mui/material"; // Import Box from MUI for centering
+import ThemeProvider from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "SnapZoška",
@@ -21,7 +22,7 @@ export default function RootLayout({
     <html lang="sk">
       <body>
         <AuthProvider>
-          <CustomThemeProvider>
+          <ThemeProvider>
             <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
               <main
                 style={{
@@ -50,7 +51,7 @@ export default function RootLayout({
                 <Navbar />  {/* Fixed navbar at the bottom */}
               </div>
             </div>
-          </CustomThemeProvider>
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>

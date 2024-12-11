@@ -1,53 +1,46 @@
-"use client";
+"use client"; // This needs to be a client component
 
-import React, { createContext, useContext, useState } from "react";
-import { createTheme, ThemeProvider, Theme } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { ThemeProvider as MUIThemeProvider, CssBaseline } from "@mui/material";
+import { darkTheme, lightTheme } from "../styles/theme";
 
-// Define context to handle theme toggling
-interface ThemeContextProps {
-  toggleTheme: () => void;
-  isDarkMode: boolean;
-}
 
-const ThemeContext = createContext<ThemeContextProps | undefined>(undefined);
-
-// Light and Dark themes
-const lightTheme = createTheme({
-  palette: {
-    mode: "light",
-  },
+// Create a context for the theme
+const ThemeContext = createContext({
+  toggleTheme: () => {},
+  isDarkMode: false,
 });
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
+// Export a custom hook for easy access to theme context
+export const useTheme = () => useContext(ThemeContext);
 
-// ThemeProvider that wraps the app
-export const CustomThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [isDarkMode, setIsDarkMode] = useState(false); // Track dark mode state
+// ThemeProvider component
+const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const toggleTheme = () => setIsDarkMode((prev) => !prev); // Toggle dark/light theme
+  // Load theme preference from localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      setIsDarkMode(true);
+    }
+  }, []);
 
-  const theme: Theme = isDarkMode ? darkTheme : lightTheme; // Choose theme based on state
+  // Toggle the theme between dark and light
+  const toggleTheme = () => {
+    const newTheme = !isDarkMode;
+    setIsDarkMode(newTheme);
+    localStorage.setItem("theme", newTheme ? "dark" : "light");
+  };
 
   return (
     <ThemeContext.Provider value={{ toggleTheme, isDarkMode }}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline /> {/* This applies the correct background color and styles */}
+      <MUIThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+        <CssBaseline />
         {children}
-      </ThemeProvider>
+      </MUIThemeProvider>
     </ThemeContext.Provider>
   );
 };
 
-// Custom hook to use theme context in any component
-export const useThemeContext = () => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error("useThemeContext must be used within a ThemeProvider");
-  }
-  return context;
-};
+export default ThemeProvider;

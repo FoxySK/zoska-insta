@@ -9,9 +9,8 @@ import GoogleIcon from '@mui/icons-material/Google';
 import GitHubIcon from '@mui/icons-material/GitHub'; 
 import { useTheme } from "@mui/material/styles";
 
-
 export default function SignIn() {
-    const theme = useTheme(); // Access the current theme
+  const theme = useTheme(); // Access the current theme
 
   return (
     <Box
@@ -41,20 +40,34 @@ export default function SignIn() {
 
         <Button
           variant="contained"
-          color="primary"
           startIcon={<GoogleIcon />} // Add Google icon
           onClick={() => signIn('google', { callbackUrl: '/' })}
-          sx={{ width: '100%', maxWidth: '300px' }}
+          sx={{
+            width: '100%',
+            maxWidth: '300px',
+            backgroundColor: "#F53E1C", // Custom Google color
+            color: "#fff",
+            "&:hover": {
+              backgroundColor: "#F4A18F",
+            },
+          }}
         >
           Registrovať cez Google
         </Button>
 
         <Button
           variant="contained"
-          color="secondary"
           startIcon={<GitHubIcon />} // Add GitHub icon
           onClick={() => signIn('github', { callbackUrl: '/' })}
-          sx={{ width: '100%', maxWidth: '300px' }}
+          sx={{
+            width: '100%',
+            maxWidth: '300px',
+            backgroundColor: "#6e5494", // Custom GitHub color
+            color: "#fff",
+            "&:hover": {
+              backgroundColor: "#6600F5",
+            },
+          }}
         >
           Registrovať cez GitHub
         </Button>
