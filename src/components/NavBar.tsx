@@ -44,8 +44,31 @@ export default function Navbar() {
     { label: "Registrácia", value: "/auth/registracia", icon: <AppRegistrationIcon /> },
   ];
 
+  // Fixed user icon for proper alignment
+  const userIcon = (
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: "32px", // Match the icon width for consistency
+        height: "32px", // Match the icon height
+      }}
+    >
+      {session?.user?.image ? (
+        <Avatar
+          src={session.user.image}
+          alt="Profile Picture"
+          sx={{ width: 32, height: 32, cursor: "pointer" }}
+        />
+      ) : (
+        <AccountCircleIcon sx={{ width: 32, height: 32, cursor: "pointer" }} />
+      )}
+    </Box>
+  );
+
   const loggedInLinks = [
-    { label: "Profil", value: "/profil", icon: <AccountCircleIcon /> },
+    { label: "Profil", value: "/profil", icon: userIcon },
     { label: "Príspevky", value: "/prispevok", icon: <AddCircleIcon /> },
     { label: "Odhlásiť sa", value: "/auth/odhlasenie", icon: <LoginIcon /> },
   ];
@@ -86,16 +109,6 @@ export default function Navbar() {
           marginLeft: 2,
         }}
       >
-        {session?.user?.image ? (
-          <Avatar
-            src={session.user.image}
-            alt="Profile Picture"
-            sx={{ width: 32, height: 32, marginRight: 2, cursor: "pointer" }}
-          />
-        ) : (
-          <AccountCircleIcon sx={{ width: 32, height: 32, marginRight: 2, cursor: "pointer" }} />
-        )}
-
         {/* Theme Toggle Button */}
         <IconButton onClick={toggleTheme}>
           {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
