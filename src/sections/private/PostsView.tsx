@@ -1,11 +1,5 @@
-// 
-
-"use client";
-
-// React imports
-import { useEffect, useState } from "react";
-
-// MUI imports
+// src/sections/private/PostsView.tsx
+import { FC } from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
@@ -13,38 +7,23 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 
-// Server action import
-import { fetchPosts } from "@/app/actions/posts";
-
-// Post interface
 interface Post {
   id: string;
   userId: string;
   imageUrl: string;
   caption?: string | null;
-  createdAt: Date; // Adjusted to match fetched data type
-  updatedAt: Date; // Adjusted to match fetched data type
+  createdAt: Date;
+  updatedAt: Date;
   user: {
     name: string | null;
   };
 }
 
-const PostsView = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
+interface PostsViewProps {
+  posts: Post[];
+}
 
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        const fetchedPosts: Post[] = await fetchPosts();
-        setPosts(fetchedPosts);
-      } catch (error) {
-        console.error("Failed to fetch posts:", error);
-      }
-    };
-
-    loadPosts();
-  }, []);
-
+const PostsView: FC<PostsViewProps> = ({ posts }) => {
   return (
     <Container sx={{ mt: 4 }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
