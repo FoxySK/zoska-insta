@@ -1,4 +1,3 @@
-// src/sections/private/PostsView.tsx
 import { FC } from "react";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -31,8 +30,16 @@ const PostsView: FC<PostsViewProps> = ({ posts }) => {
       </Typography>
       <Grid container spacing={2}>
         {posts.map((post) => (
-          <Grid item xs={12} sm={6} md={4} key={post.id}>
-            <Card>
+          <Grid item xs={12} key={post.id}> {/* Adjust grid to be responsive */}
+            <Card
+              sx={{
+                transition: "transform 0.3s, box-shadow 0.3s",  // Transition effect
+                "&:hover": {
+                  transform: "scale(1.05)",  // Slightly scale up the card
+                  boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",  // Add a subtle shadow
+                },
+              }}
+            >
               <CardMedia
                 component="img"
                 height="140"

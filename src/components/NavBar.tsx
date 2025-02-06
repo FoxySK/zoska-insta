@@ -9,6 +9,7 @@ import {
   Avatar,
 } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
+import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import LoginIcon from "@mui/icons-material/Login";
@@ -19,30 +20,18 @@ import InfoIcon from "@mui/icons-material/Info";
 import PrivacyTipIcon from "@mui/icons-material/PrivacyTip";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
 import { useTheme } from "../components/ThemeProvider";
 
 export default function Navbar() {
   const [value, setValue] = React.useState("/");
   const { data: session } = useSession();
   const router = useRouter();
-  const pathname = usePathname();
-
   const { toggleTheme, isDarkMode } = useTheme(); // Access theme context
 
   const handleNavigation = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
     router.push(newValue);
   };
-
-  const commonLinks = [{ label: "Domov", value: "/", icon: <HomeIcon /> }];
-
-  const loggedOutLinks = [
-    { label: "O nás", value: "/o-nas", icon: <InfoIcon /> },
-    { label: "GDPR", value: "/gdpr", icon: <PrivacyTipIcon /> },
-    { label: "Prihlásenie", value: "/auth/prihlasenie", icon: <LoginIcon /> },
-    { label: "Registrácia", value: "/auth/registracia", icon: <AppRegistrationIcon /> },
-  ];
 
   // Fixed user icon for proper alignment
   const userIcon = (
@@ -51,8 +40,8 @@ export default function Navbar() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        width: "32px", // Match the icon width for consistency
-        height: "32px", // Match the icon height
+        width: "33px", // Match the icon width for consistency
+        height: "33px", // Match the icon height
       }}
     >
       {session?.user?.image ? (
@@ -67,9 +56,18 @@ export default function Navbar() {
     </Box>
   );
 
+  const commonLinks = [{ label: "Domov", value: "/ ", icon: <HomeIcon /> }];
+  const loggedOutLinks = [
+    { label: "O nás", value: "/o-nas", icon: <InfoIcon /> },
+    /*{ label: "GDPR", value: "/gdpr", icon: <PrivacyTipIcon /> },*/,
+    { label: "Prihlásenie", value: "/auth/prihlasenie", icon: <LoginIcon /> },
+    { label: "Registrácia", value: "/auth/registracia", icon: <AppRegistrationIcon /> },
+  ];
+
   const loggedInLinks = [
     { label: "Profil", value: "/profil", icon: userIcon },
-    { label: "Príspevky", value: "/prispevok", icon: <AddCircleIcon /> },
+    { label: "Vyhladat", value: "/profil", icon: <SearchIcon /> },
+    { label: "Pridat", value: "/prispevok", icon: <AddCircleIcon /> },
     { label: "Odhlásiť sa", value: "/auth/odhlasenie", icon: <LoginIcon /> },
   ];
 
@@ -78,27 +76,59 @@ export default function Navbar() {
       sx={{
         width: "100%",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "8px",
-        position: "fixed", // Keep it fixed
-        bottom: 0, // Stick to the bottom
+        justifyContent: "center",
+        padding: "10px",
+        position: "fixed", // Keep it fixed at the bottom
+        bottom: 0,
         left: 0,
-        backgroundColor: "background.paper", // Match theme
-        zIndex: 1000, // Ensure it's above other elements
+        backgroundColor: "background.paper", // Smooth background color
+        zIndex: 1000,
+        boxShadow: "0px -2px 5px rgba(0, 0, 0, 0.1)", // Soft shadow for elevation
       }}
     >
       <BottomNavigation
         showLabels
         value={value}
         onChange={handleNavigation}
-        sx={{ flexGrow: 1, backgroundColor: "transparent" }}
+        sx={{
+          display: "flex",
+          justifyContent: "space-evenly", // Align icons evenly
+          alignItems: "center",
+          width: "100%",
+          backgroundColor: "transparent",
+          borderRadius: "20px", // Rounded corners for smoothness
+          padding: "8px 12px", // Spacing for a clean feel
+          transition: "all 0.3s ease", // Smooth transition
+          "& .MuiBottomNavigationAction-root": {
+            padding: "8px 12px", // Inner padding for each icon
+            transition: "transform 0.2s ease", // Hover effect on icons
+            "&:hover": {
+              transform: "scale(1.1)", // Slight scale effect on hover
+            },
+          },
+        }}
       >
         {commonLinks.map((link) => (
-          <BottomNavigationAction key={link.value} label={link.label} value={link.value} icon={link.icon} />
+          <BottomNavigationAction
+            key={link.value}
+            label={link.label}
+            value={link.value}
+            icon={link.icon}
+            sx={{
+              color: "text.primary", // Default icon color
+            }}
+          />
         ))}
         {(session ? loggedInLinks : loggedOutLinks).map((link) => (
-          <BottomNavigationAction key={link.value} label={link.label} value={link.value} icon={link.icon} />
+          <BottomNavigationAction
+            key={link.value}
+            label={link.label}
+            value={link.value}
+            icon={link.icon}
+            sx={{
+              color: "text.primary", // Default icon color
+            }}
+          />
         ))}
       </BottomNavigation>
 
@@ -110,7 +140,18 @@ export default function Navbar() {
         }}
       >
         {/* Theme Toggle Button */}
-        <IconButton onClick={toggleTheme}>
+        <IconButton
+          onClick={toggleTheme}
+          sx={{
+            backgroundColor: "transparent",
+            borderRadius: "50%",
+            padding: "6px",
+            transition: "background-color 0.2s ease", // Smooth background on hover
+            "&:hover": {
+              backgroundColor: "rgba(0, 0, 0, 0.1)", // Light hover effect
+            },
+          }}
+        >
           {isDarkMode ? <Brightness7Icon /> : <Brightness4Icon />}
         </IconButton>
       </Box>

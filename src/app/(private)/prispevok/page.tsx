@@ -14,7 +14,7 @@ export default async function PostsList() {
 
   return (
     <>
-      <Typography>Zoznam prispevkov</Typography>
+      {/*<Typography>Zoznam prispevkov</Typography>*/}
       <PostsView posts={posts} /> {/* Pass posts as a prop */}
     </>
   );
