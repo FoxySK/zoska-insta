@@ -1,5 +1,4 @@
 // src/app/actions/posts.ts
-
 "use server";
 
 // Import Prisma client
@@ -10,7 +9,11 @@ export const fetchPosts = async () => {
   try {
     const posts = await prisma.post.findMany({
       orderBy: { createdAt: "desc" },
-      include: { user: true }, // Include user who created the post
+      include: {
+        user: true,
+        comments: true,
+        likes: true,
+      },
     });
 
     return posts;
@@ -26,6 +29,11 @@ export const fetchPostsByUserId = async (userId: string) => {
     const posts = await prisma.post.findMany({
       where: { userId },
       orderBy: { createdAt: "desc" },
+      include: {
+        user: true,
+        comments: true,
+        likes: true,
+      },
     });
 
     return posts;

@@ -18,14 +18,10 @@ export default function ClientGDPR() {
 
       {/* Introduction */}
       <Typography variant="h6" sx={{ mb: 2 }}>
-        Čo je GDPR?
+        Podmienky a GDPR
       </Typography>
       <Typography variant="body1" paragraph>
-        Všeobecné nariadenie o ochrane údajov (GDPR) je nariadenie v práve EÚ,
-        ktorým sa chránia súkromie a osobné údaje všetkých jednotlivcov v rámci
-        Európskej únie. Umožňuje jednotlivcom väčšiu kontrolu nad ich osobnými
-        údajmi a cieľom je zjednodušiť regulačné prostredie pre medzinárodný
-        obchod zjednotením regulácie v rámci EÚ.
+        Vaša ochrana súkromia je pre nás veľmi dôležitá. V tomto dokumente sa dozviete, ako spracúvame a chránime vaše osobné údaje v súlade s nariadením GDPR.
       </Typography>
 
       {/* Data Collection */}
