@@ -55,19 +55,33 @@ export default function SignIn() {
           <>
             <Button
               variant="contained"
-              color="primary"
-              startIcon={<GoogleIcon />}
               onClick={() => handleSignIn("google")}
-              sx={{ width: "100%", maxWidth: "300px" }}
+              startIcon={<GoogleIcon />}
+              sx={{
+                width: "100%",
+                maxWidth: "300px",
+                backgroundColor: "#F53E1C", // Google Blue
+                color: "#fff",
+                "&:hover": {
+                  backgroundColor: "#F4A18F",
+                },
+              }}
             >
               Prihlásiť sa pomocou Google
             </Button>
             <Button
               variant="contained"
-              color="secondary"
-              startIcon={<GitHubIcon />}
               onClick={() => handleSignIn("github")}
-              sx={{ width: "100%", maxWidth: "300px" }}
+              startIcon={<GitHubIcon />}
+              sx={{
+                width: "100%",
+                maxWidth: "300px",
+                backgroundColor: "#6e5494", // GitHub Purple
+                color: "#fff",
+                "&:hover": {
+                  backgroundColor: "#6600F5",
+                },
+              }}
             >
               Prihlásiť sa pomocou GitHub
             </Button>

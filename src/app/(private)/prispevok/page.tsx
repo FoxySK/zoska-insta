@@ -1,15 +1,11 @@
 // src/app/prispevok/page.tsx
-
-
-import Typography from "@mui/material/Typography";
+import PostsView from "@/sections/private/PostsView";
+import { fetchPosts } from "@/app/actions/posts";
 
 export const metadata = { title: "Zoznam prispevkov | ZoškaSnap" };
 
-export default function PostsList() {
+export default async function PostsList() {
+  const posts = await fetchPosts();
 
-  return (
-
-      <Typography> Zoznam prispevkov </Typography>
-
-  );
+  return <PostsView posts={posts} />;
 }
